@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Searching & Sorting Algorithms Guide</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 2.5rem 1rem;
+    }
+
+    h1, h2 {
+      margin: 0;
+      padding: 0.75rem 0;
+    }
+
+    main {
+      max-width: 960px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    section {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      margin-bottom: 2.5rem;
+      padding: 2rem;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    pre {
+      background-color: #2d2d2d;
+      color: #f8f8f2;
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    code {
+      font-family: monospace;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: #ecf0f1;
+    }
+
+    /* Visualizer Styles */
+    .visualizer-section canvas {
+      margin-top: 1rem;
+      width: 100%;
+      height: 150px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+    }
+
+    .visualizer-section button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 5px;
+    }
+
+    .visualizer-section button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Searching & Sorting Algorithms in C++</h1>
+  <p>Real-Life Use Cases and Examples</p>
+</header>
+
+<main>
+
+  <!-- SEARCHING ALGORITHMS -->
+  <section>
+    <h2>🔍 Searching Algorithms</h2>
+
+    <h3>1. Linear Search</h3>
+    <ul>
+      <li><strong>Idea:</strong> Traverse array until match found.</li>
+      <li><strong>Analogy:</strong> Looking for keys in a drawer — check one by one.</li>
+      <li><strong>Use Case:</strong> Small datasets like checking if a username exists in a list.</li>
+      <li><strong>Time Complexity:</strong> O(n)</li>
+    </ul>
+    <pre><code>
+#include <iostream>
+using namespace std;
+
+int linearSearch(int arr[], int n, int target) {
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == target)
+            return i;
+    }
+    return -1;
+}
+
+int main() {
+    int arr[] = {5, 3, 8, 4, 2};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int target = 4;
+    int index = linearSearch(arr, n, target);
+    cout << (index != -1 ? "Found at index " + to_string(index) : "Not found");
+}
+    </code></pre>
+
+    <h3>2. Binary Search</h3>
+    <ul>
+      <li><strong>Idea:</strong> Divide and conquer on sorted arrays.</li>
+      <li><strong>Analogy:</strong> Guessing a number between 1–100 by halving.</li>
+      <li><strong>Use Case:</strong> Used in dictionaries, phone books, and search engines for fast lookup.</li>
+      <li><strong>Time Complexity:</strong> O(log n)</li>
+    </ul>
+    <pre><code>
+#include <iostream>
+using namespace std;
+
+int binarySearch(int arr[], int left, int right, int target) {
+    while (left <= right) {
+        int mid = left + (right - left)/2;
+        if (arr[mid] == target) return mid;
+        else if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+
+int main() {
+    int arr[] = {2, 3, 4, 5, 8}; // must be sorted
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int target = 5;
+    int index = binarySearch(arr, 0, n - 1, target);
+    cout << (index != -1 ? "Found at index " + to_string(index) : "Not found");
+}
+    </code></pre>
+  </section>
+
+  <!-- SORTING ALGORITHMS -->
+  <section>
+    <h2>🧮 Sorting Algorithms Summary</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Algorithm</th>
+          <th>Time Complexity</th>
+          <th>Stable?</th>
+          <th>In-place?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Bubble Sort</td><td>O(n²)</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td>Selection Sort</td><td>O(n²)</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Insertion Sort</td><td>O(n²)</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td>Merge Sort</td><td>O(n log n)</td><td>Yes</td><td>No</td></tr>
+        <tr><td>Quick Sort</td><td>O(n log n) avg</td><td>No</td><td>Yes</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1. Bubble Sort</h3>
+    <ul>
+      <li><strong>Idea:</strong> Swap adjacent elements if out of order.</li>
+      <li><strong>Use Case:</strong> Educational purposes, small embedded systems where memory is limited.</li>
+    </ul>
+    <pre><code>
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++)
+        for (int j = 0; j < n - i - 1; j++)
+            if (arr[j] > arr[j + 1])
+                swap(arr[j], arr[j + 1]);
+}
+    </code></pre>
+
+    <h3>2. Selection Sort</h3>
+    <ul>
+      <li><strong>Idea:</strong> Find smallest and place at front.</li>
+      <li><strong>Use Case:</strong> When memory writes are expensive (e.g., flash memory).</li>
+    </ul>
+    <pre><code>
+void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < n; j++)
+            if (arr[j] < arr[minIndex])
+                minIndex = j;
+        swap(arr[i], arr[minIndex]);
+    }
+}
+    </code></pre>
+
+    <h3>3. Insertion Sort</h3>
+    <ul>
+      <li><strong>Idea:</strong> Insert each element in correct position.</li>
+      <li><strong>Use Case:</strong> Online algorithms where data arrives gradually (e.g., card games).</li>
+    </ul>
+    <pre><code>
+void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+    </code></pre>
+
+    <h3>4. Merge Sort</h3>
+    <ul>
+      <li><strong>Idea:</strong> Divide, sort, then merge.</li>
+      <li><strong>Use Case:</strong> Used in e-commerce platforms to sort large product catalogs efficiently.</li>
+    </ul>
+    <pre><code>
+void merge(int arr[], int left, int mid, int right) {
+    int n1 = mid - left + 1, n2 = right - mid;
+    int L[n1], R[n2];
+    for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) arr[k++] = L[i++];
+        else arr[k++] = R[j++];
+    }
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
+}
+
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left)/2;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+    </code></pre>
+
+    <h3>5. Quick Sort</h3>
+    <ul>
+      <li><strong>Idea:</strong> Pick pivot, partition, and recurse both sides.</li>
+      <li><strong>Use Case:</strong> Database engines to sort large datasets quickly.</li>
+    </ul>
+    <pre><code>
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+    for (int j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    return i + 1;
+}
+
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+    </code></pre>
+  </section>
+
+  <!-- REAL LIFE USE CASES -->
+  <section>
+    <h2>🌍 Real-Life Applications</h2>
+    <ul>
+      <li><strong>Linear Search:</strong> Finding a contact in an unsorted mobile phone list.</li>
+      <li><strong>Binary Search:</strong> Dictionary apps, search engines, and GPS navigation.</li>
+      <li><strong>Bubble Sort:</strong> Simple embedded systems like calculators or old devices.</li>
+      <li><strong>Selection Sort:</strong> Low-memory hardware where write operations matter.</li>
+      <li><strong>Insertion Sort:</strong> Live sorting in online card games or financial tools.</li>
+      <li><strong>Merge Sort:</strong> E-commerce platforms and file systems that require stable sorting.</li>
+      <li><strong>Quick Sort:</strong> Used internally in programming languages like Java and Python for `Arrays.sort()`.</li>
+    </ul>
+  </section>
+
+  <!-- VISUALIZER SECTION -->
+  <section class="visualizer-section">
+    <h2>📊 Algorithm Visualizers</h2>
+    <p>Click the buttons below to watch how each algorithm works step-by-step!</p>
+
+    <canvas id="visualizerCanvas"></canvas>
+    <div style="text-align:center;">
+      <button onclick="resetArray()">Reset Array</button>
+    </div>
+
+    <div style="margin-top: 1rem;">
+      <button onclick="runLinearSearch()">Run Linear Search</button>
+      <button onclick="runBinarySearch()">Run Binary Search</button>
+      <button onclick="runBubbleSort()">Run Bubble Sort</button>
+      <button onclick="runSelectionSort()">Run Selection Sort</button>
+      <button onclick="runInsertionSort()">Run Insertion Sort</button>
+      <button onclick="runMergeSort()">Run Merge Sort</button>
+      <button onclick="runQuickSort()">Run Quick Sort</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const canvas = document.getElementById('visualizerCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let arraySize = 20;
+  let array = [];
+
+  function drawArray(arr, highlight = {}) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const barWidth = canvas.width / arr.length - 1;
+    for (let i = 0; i < arr.length; i++) {
+      let color = "#3498db";
+      if (highlight[i] !== undefined) {
+        color = highlight[i];
+      }
+      ctx.fillStyle = color;
+      ctx.fillRect(i * (barWidth + 1), canvas.height - arr[i], barWidth, arr[i]);
+    }
+  }
+
+  function generateRandomArray() {
+    array = [];
+    for (let i = 0; i < arraySize; i++) {
+      array.push(Math.floor(Math.random() * canvas.height * 0.9) + 10);
+    }
+    drawArray(array);
+  }
+
+  function resetArray() {
+    generateRandomArray();
+  }
+
+  generateRandomArray();
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function runAlgorithm(algorithm) {
+    await algorithm(array, drawArray, sleep);
+    drawArray(array);
+  }
+
+  window.runLinearSearch = async () => {
+    const target = Math.floor(Math.random() * array.length);
+    drawArray(array);
+    for (let i = 0; i < array.length; i++) {
+      await sleep(100);
+      drawArray(array, { [i]: "#e74c3c" });
+      if (array[i] === array[target]) break;
+    }
+  };
+
+  window.runBinarySearch = async () => {
+    let arr = [...array].sort((a, b) => a - b);
+    let left = 0, right = arr.length - 1;
+    const targetIndex = Math.floor(Math.random() * arr.length);
+    const targetValue = arr[targetIndex];
+
+    while (left <= right) {
+      await sleep(300);
+      let mid = Math.floor((left + right) / 2);
+      drawArray(arr, { [mid]: "#e74c3c", [left]: "#f1c40f", [right]: "#f1c40f" });
+      if (arr[mid] === targetValue) break;
+      else if (arr[mid] < targetValue) left = mid + 1;
+      else right = mid - 1;
+    }
+  };
+
+  window.runBubbleSort = () => runAlgorithm(bubbleSort);
+  window.runSelectionSort = () => runAlgorithm(selectionSort);
+  window.runInsertionSort = () => runAlgorithm(insertionSort);
+  window.runMergeSort = () => runAlgorithm(mergeSort);
+  window.runQuickSort = () => runAlgorithm(quickSort);
+
+  function bubbleSort(arr, draw, sleep) {
+    return new Promise(async resolve => {
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length - i - 1; j++) {
+          await sleep(50);
+          if (arr[j] > arr[j + 1]) {
+            [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+          }
+          draw(arr, { [j]: "#e74c3c", [j + 1]: "#2ecc71" });
+        }
+      }
+      resolve();
+    });
+  }
+
+  function selectionSort(arr, draw, sleep) {
+    return new Promise(async resolve => {
+      for (let i = 0; i < arr.length - 1; i++) {
+        let minIndex = i;
+        for (let j = i + 1; j < arr.length; j++) {
+          await sleep(50);
+          if (arr[j] < arr[minIndex]) {
+            minIndex = j;
+          }
+          draw(arr, { [i]: "#f1c40f", [j]: "#e74c3c", [minIndex]: "#2ecc71" });
+        }
+        [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+        draw(arr);
+      }
+      resolve();
+    });
+  }
+
+  function insertionSort(arr, draw, sleep) {
+    return new Promise(async resolve => {
+      for (let i = 1; i < arr.length; i++) {
+        let key = arr[i];
+        let j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+          await sleep(50);
+          arr[j + 1] = arr[j];
+          j--;
+          draw(arr, { [j + 1]: "#e74c3c", [i]: "#f1c40f" });
+        }
+        arr[j + 1] = key;
+        draw(arr);
+      }
+      resolve();
+    });
+  }
+
+  function mergeSort(arr, draw, sleep) {
+    return new Promise(resolve => {
+      recursiveMergeSort(arr, 0, arr.length - 1).then(resolve);
+    });
+
+    async function recursiveMergeSort(arr, l, r) {
+      if (l >= r) return;
+      const m = Math.floor((l + r) / 2);
+      await recursiveMergeSort(arr, l, m);
+      await recursiveMergeSort(arr, m + 1, r);
+      await merge(arr, l, m, r);
+    }
+
+    async function merge(arr, l, m, r) {
+      let n1 = m - l + 1;
+      let n2 = r - m;
+
+      let L = arr.slice(l, m + 1);
+      let R = arr.slice(m + 1, r + 1);
+
+      let i = 0, j = 0, k = l;
+
+      while (i < n1 && j < n2) {
+        await sleep(50);
+        if (L[i] <= R[j]) {
+          arr[k++] = L[i++];
+        } else {
+          arr[k++] = R[j++];
+        }
+        draw(arr);
+      }
+
+      while (i < n1) {
+        arr[k++] = L[i++];
+        draw(arr);
+        await sleep(50);
+      }
+
+      while (j < n2) {
+        arr[k++] = R[j++];
+        draw(arr);
+        await sleep(50);
+      }
+    }
+  }
+
+  function quickSort(arr, draw, sleep) {
+    return new Promise(resolve => {
+      recursiveQuickSort(arr, 0, arr.length - 1).then(resolve);
+    });
+
+    async function recursiveQuickSort(arr, low, high) {
+      if (low < high) {
+        let pi = await partition(arr, low, high);
+        await recursiveQuickSort(arr, low, pi - 1);
+        await recursiveQuickSort(arr, pi + 1, high);
+        draw(arr);
+      }
+    }
+
+    async function partition(arr, low, high) {
+      let pivot = arr[high];
+      let i = low - 1;
+      for (let j = low; j < high; j++) {
+        await sleep(50);
+        if (arr[j] < pivot) {
+          i++;
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+          draw(arr, { [i]: "#e74c3c", [j]: "#f1c40f" });
+        }
+      }
+      [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+      draw(arr);
+      return i + 1;
+    }
+  }
+</script>
+
+</body>
+</html>
